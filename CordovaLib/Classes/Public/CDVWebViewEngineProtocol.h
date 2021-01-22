@@ -18,6 +18,7 @@
  */
 
 #import <UIKit/UIKit.h>
+#import "CDVWebViewInterceptorHandler.h"
 
 #define kCDVWebViewEngineScriptMessageHandlers @"kCDVWebViewEngineScriptMessageHandlers"
 #define kCDVWebViewEngineWKNavigationDelegate @"kCDVWebViewEngineWKNavigationDelegate"
@@ -37,5 +38,7 @@
 
 - (instancetype)initWithFrame:(CGRect)frame;
 - (void)updateWithInfo:(NSDictionary*)info;
+
+- (void)registerInterceptor:(CDVWebViewInterceptorHandler *)interceptor;
 
 @end

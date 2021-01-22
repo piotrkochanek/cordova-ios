@@ -22,6 +22,7 @@
 #import "CDVWebViewProcessPoolFactory.h"
 #import <Cordova/NSDictionary+CordovaPreferences.h>
 #import "CDVURLSchemeHandler.h"
+#import "CDVWebViewInterceptorHandler.h"
 
 #import <objc/message.h>
 
@@ -429,6 +430,10 @@ static void * KVOContext = &KVOContext;
     if (settings && [settings isKindOfClass:[NSDictionary class]]) {
         [self updateSettings:settings];
     }
+}
+
+- (void)registerInterceptor:(CDVWebViewInterceptorHandler *)interceptor {
+	[self.schemeHandler registerInterceptor:interceptor];
 }
 
 // This forwards the methods that are in the header that are not implemented here.
