@@ -35,6 +35,11 @@
     return self;
 }
 
+- (void)registerInterceptor:(CDVWebViewInterceptorHandler *)interceptor
+{
+	self.interceptor = interceptor;
+}
+
 - (void)webView:(WKWebView *)webView startURLSchemeTask:(id <WKURLSchemeTask>)urlSchemeTask
 {
     NSString * startPath = [[NSBundle mainBundle] pathForResource:self.viewController.wwwFolderName ofType: nil];
@@ -62,7 +67,7 @@
             }
         }
     }
-
+	
     if (!anyPluginsResponded) {
         if ([scheme isEqualToString:self.viewController.appScheme]) {
             if ([stringToLoad hasPrefix:@"/_app_file_"]) {
@@ -97,6 +102,11 @@
             NSDictionary * headers = @{ @"Content-Type" : mimeType, @"Cache-Control": @"no-cache"};
             response = [[NSHTTPURLResponse alloc] initWithURL:localUrl statusCode:statusCode HTTPVersion:nil headerFields:headers];
         }
+		if (data && (statusCode >= 200 && statusCode <= 299)) {
+			if (self.interceptor != nil) {
+				data = [self.interceptor interceptRequest:localUrl withData:data];
+			}
+		}
 
         [urlSchemeTask didReceiveResponse:response];
         if (data) {

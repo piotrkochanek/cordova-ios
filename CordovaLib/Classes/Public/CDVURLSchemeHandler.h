@@ -20,15 +20,16 @@
 #import <Foundation/Foundation.h>
 #import <WebKit/WebKit.h>
 #import "CDVViewController.h"
-
+#import "CDVWebViewInterceptorHandler.h"
 
 @interface CDVURLSchemeHandler : NSObject <WKURLSchemeHandler>
 
 @property (nonatomic, strong) CDVViewController* viewController;
+@property (nonatomic, strong) CDVWebViewInterceptorHandler *interceptor;
 
 @property (nonatomic) CDVPlugin* schemePlugin;
 
 - (instancetype)initWithVC:(CDVViewController *)controller;
-
+- (void)registerInterceptor:(CDVWebViewInterceptorHandler *)interceptor;
 
 @end
